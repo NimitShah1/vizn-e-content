@@ -1,0 +1,42 @@
+.CH_had {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+ion-checkbox {
+  --size: 24px;
+  --checkbox-background-checked: var(--ion-color-main);
+}
+
+ion-checkbox::part(container) {
+  border-radius: 6px;
+  border: 2px solid var(--ion-color-main);
+}
+.classList {
+  display: flex;
+  align-items: center;
+  width: 100% !important;
+  justify-content: space-between;
+  padding-inline: 16px;
+}
+
+.classList p {
+  margin-block: 8px;
+}
+
+/////
+.flex_start {
+  display: flex;
+  align-items: center;
+}
+
+ion-card {
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  margin: 10px;
+  transition: border 0.3s;
+}
+
+.selected-card {
+  border: 1px solid var(--ion-color-main);
+}

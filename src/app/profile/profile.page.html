@@ -1,0 +1,677 @@
+<ion-header id="headers" no-shadow style="position: unset">
+  <ion-toolbar>
+    <div class="header">
+      <ion-grid class="container">
+        <ion-row>
+          <ion-col size="3">
+            <div class="page_had" (click)="backPage()">
+              <ion-icon
+                name="arrow-back-outline"
+                style="font-size: 30px; color: #fff"
+              ></ion-icon>
+            </div>
+          </ion-col>
+          <ion-col size="6" class="CH_had">
+            <ion-label style="color: white"><b>PROFILE</b></ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container3">
+    <div class="container3 background">
+      <form [formGroup]="updateForm">
+        <ion-grid>
+          <ion-row>
+            <ion-col
+              size="8"
+              style="padding-left: 16px !important; max-width: 60%"
+            >
+              <ion-row>
+                <ion-input
+                  *ngIf="!isShimmer"
+                  style="
+                    font-size: 18px;
+                    font-weight: 700;
+                    padding-left: 6px !important;
+                    margin-left: 8px !important;
+                  "
+                  class="profile_input"
+                  [readonly]="isedit"
+                  type="text"
+                  formControlName="student_name"
+                  placeholder="Enter Student Name"
+                ></ion-input>
+                <ion-skeleton-text
+                  *ngIf="isShimmer"
+                  [animated]="true"
+                  style="
+                    width: 80%;
+                    height: 15px;
+                    margin-block: 5px;
+                    margin-left: 5px;
+                    --border-radius: 15px;
+                  "
+                ></ion-skeleton-text>
+              </ion-row>
+              <ion-row>
+                <ion-input
+                  *ngIf="!isShimmer"
+                  style="
+                    padding-left: 6px !important;
+                    margin-left: 8px !important;
+                  "
+                  formControlName="mobile"
+                  class="profile_input"
+                  type="text"
+                  [readonly]="true"
+                ></ion-input>
+                <ion-skeleton-text
+                  *ngIf="isShimmer"
+                  [animated]="true"
+                  style="
+                    width: 80%;
+                    height: 15px;
+                    margin-block: 5px;
+                    margin-left: 5px;
+                    --border-radius: 15px;
+                  "
+                ></ion-skeleton-text>
+              </ion-row>
+              <ion-row>
+                <ion-input
+                  *ngIf="!isShimmer"
+                  style="
+                    padding-left: 6px !important;
+                    margin-top: -5px;
+                    margin-left: 8px !important;
+                  "
+                  class="profile_input"
+                  type="text"
+                  formControlName="email"
+                  [readonly]="isedit"
+                ></ion-input>
+                <ion-skeleton-text
+                  *ngIf="isShimmer"
+                  [animated]="true"
+                  style="
+                    width: 80%;
+                    height: 15px;
+                    margin-block: 5px;
+                    margin-left: 5px;
+                    --border-radius: 15px;
+                  "
+                ></ion-skeleton-text>
+              </ion-row>
+            </ion-col>
+            <ion-col size="4" class="CH_had" *ngIf="!isWeb">
+              <img
+                [src]="ProfilePic == ''|| ProfilePic == null || ProfilePic == 'https://ease.vizn.co.in/Uploads/jeevandeep_student_profile/' ? 'assets/images/user-profile.svg' : this.ProfilePic"
+                [ngClass]="isedit ? 'profile_img_none' : 'profile_img' "
+                (click)="selectImage(1)"
+              />
+              <ion-icon
+                name="pencil-sharp"
+                [ngClass]="isedit ? 'edit_none' : 'edit' "
+              ></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div class="horizontal_line"></div>
+        <ion-grid class="container3" *ngIf="!isWeb">
+          <ion-row>
+            <ion-col size="4" class="sub_grid">
+              <p>Board</p>
+              <p>:</p>
+            </ion-col>
+            <ion-col size="8">
+              <!-- <p formControlName='BoardName' ></p> -->
+              <ion-input
+                *ngIf="!isShimmer"
+                class="profile_input"
+                type="text"
+                formControlName="BoardName"
+                [readonly]="true"
+              ></ion-input>
+              <ion-skeleton-text
+                *ngIf="isShimmer"
+                [animated]="true"
+                style="
+                  width: 60%;
+                  height: 15px;
+                  margin-block: 5px;
+                  --border-radius: 15px;
+                "
+              ></ion-skeleton-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" class="sub_grid">
+              <p>Standard</p>
+              <p>:</p>
+            </ion-col>
+            <ion-col size="8">
+              <ion-input
+                *ngIf="!isShimmer"
+                class="profile_input"
+                type="text"
+                formControlName="StandardName"
+                [readonly]="true"
+              ></ion-input>
+              <ion-skeleton-text
+                *ngIf="isShimmer"
+                [animated]="true"
+                style="
+                  width: 60%;
+                  height: 15px;
+                  margin-block: 5px;
+                  --border-radius: 15px;
+                "
+              ></ion-skeleton-text>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" class="sub_grid">
+              <p>Subject</p>
+              <p>:</p>
+            </ion-col>
+            <ion-col size="8">
+              <p *ngIf="!isShimmer">{{SubjectName}}</p>
+              <ion-skeleton-text
+                *ngIf="isShimmer"
+                [animated]="true"
+                style="
+                  width: 60%;
+                  height: 15px;
+                  margin-block: 5px;
+                  --border-radius: 15px;
+                "
+              ></ion-skeleton-text>
+              <!-- <div class="subject_div_profile">
+              <p *ngFor="let item of DashboardList">{{item.SubjectName}}</p> -->
+              <!-- <ion-input  class="profile_input" type="text" formControlName='SubjectName' [readonly]="true" ></ion-input> -->
+              <!-- </div> -->
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" class="sub_grid">
+              <p>Your Target</p>
+              <p>:</p>
+            </ion-col>
+            <ion-col size="8">
+              <ion-input
+                formControlName="target"
+                class="profile_input"
+                type="text"
+                [readonly]="isedit"
+                placeholder="85 %"
+              ></ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div class="horizontal_line" *ngIf="!isWeb"></div>
+        <ion-grid class="container3" *ngIf="!isWeb">
+          <ion-row>
+            <ion-col size="4" class="sub_grid">
+              <p>DOB</p>
+              <p>:</p>
+            </ion-col>
+            <ion-col size="8">
+              <ion-input
+                placeholder="Select DOB"
+                formControlName="dob"
+                value="{{ date | date: 'dd MMM yyyy' }}"
+                id="date"
+                style="margin-left: -5px; min-height: 25px; font-size: 13px"
+              >
+              </ion-input>
+              <ion-popover
+                trigger="date"
+                show-backdrop="false"
+                style="top: -38%"
+              >
+                <ng-template>
+                  <ion-datetime
+                    #popoverDate
+                    presentation="date"
+                    showDefaultButtons="true"
+                    (ionChange)="date = popoverDate.value"
+                    [disabled]="isedit"
+                  ></ion-datetime>
+                </ng-template>
+              </ion-popover>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" class="sub_grid">
+              <p>Gender</p>
+              <p>:</p>
+            </ion-col>
+            <ion-col size="8" style="padding: 0 !important; margin-left: -12px">
+              <ion-item
+                style="height: 32px !important; display: flex"
+                [disabled]="isedit"
+              >
+                <ion-select
+                  placeholder="Select Gender"
+                  formControlName="gender"
+                  style="font-size: 13px; max-height: 25px"
+                >
+                  <ion-select-option value="male">Male</ion-select-option>
+                  <ion-select-option value="female">Female</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" class="sub_grid">
+              <p>Address</p>
+              <p>:</p>
+            </ion-col>
+            <ion-col size="8">
+              <ion-input
+                formControlName="address"
+                class="profile_input"
+                type="text"
+                [readonly]="isedit"
+                placeholder="Enter Address"
+              ></ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" class="sub_grid">
+              <p>City</p>
+              <p>:</p>
+            </ion-col>
+            <ion-col size="8">
+              <ion-input
+                formControlName="city"
+                class="profile_input"
+                type="text"
+                [readonly]="isedit"
+                placeholder="Enter City"
+              ></ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" class="sub_grid">
+              <p>Location</p>
+              <p>:</p>
+            </ion-col>
+            <ion-col size="8">
+              <ion-input
+                formControlName="location"
+                class="profile_input"
+                type="text"
+                [readonly]="isedit"
+                placeholder="Enter Location"
+              ></ion-input>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" class="sub_grid">
+              <p>Pin Code</p>
+              <p>:</p>
+            </ion-col>
+            <ion-col size="8">
+              <ion-input
+                formControlName="pincode"
+                class="profile_input"
+                type="tel"
+                maxlength="6"
+                [readonly]="isedit"
+                placeholder="Pin Code"
+              ></ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          "
+          *ngIf="isWeb"
+        >
+          <div style="width: 50%">
+            <ion-grid class="container3">
+              <ion-row>
+                <ion-col size="4" class="sub_grid">
+                  <p>Board</p>
+                  <p>:</p>
+                </ion-col>
+                <ion-col size="8">
+                  <!-- <p formControlName='BoardName' ></p> -->
+                  <ion-input
+                    class="profile_input"
+                    type="text"
+                    formControlName="BoardName"
+                    [readonly]="true"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4" class="sub_grid">
+                  <p>Standard</p>
+                  <p>:</p>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input
+                    class="profile_input"
+                    type="text"
+                    formControlName="StandardName"
+                    [readonly]="true"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4" class="sub_grid">
+                  <p>Subject</p>
+                  <p>:</p>
+                </ion-col>
+                <ion-col size="8">
+                  <p>{{SubjectName}}</p>
+                  <!-- <div class="subject_div_profile">
+                  <p *ngFor="let item of DashboardList">{{item.SubjectName}}</p> -->
+                  <!-- <ion-input  class="profile_input" type="text" formControlName='SubjectName' [readonly]="true" ></ion-input> -->
+                  <!-- </div> -->
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4" class="sub_grid">
+                  <p>Your Target</p>
+                  <p>:</p>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input
+                    formControlName="target"
+                    class="profile_input"
+                    type="text"
+                    [readonly]="isedit"
+                    placeholder="85 %"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+          <div style="width: 45%">
+            <ion-grid class="container3">
+              <ion-row>
+                <ion-col size="4" class="sub_grid">
+                  <p>DOB</p>
+                  <p>:</p>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input
+                    placeholder="Select DOB"
+                    formControlName="dob"
+                    value="{{ date | date: 'dd MMM yyyy' }}"
+                    id="date"
+                    style="margin-left: -8px; height: 25px; font-size: 13px"
+                  >
+                  </ion-input>
+                  <ion-popover
+                    trigger="date"
+                    show-backdrop="false"
+                    style="top: -38%"
+                  >
+                    <ng-template>
+                      <ion-datetime
+                        #popoverDate
+                        presentation="date"
+                        showDefaultButtons="true"
+                        (ionChange)="date = popoverDate.value"
+                        [disabled]="isedit"
+                      ></ion-datetime>
+                    </ng-template>
+                  </ion-popover>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4" class="sub_grid">
+                  <p>Gender</p>
+                  <p>:</p>
+                </ion-col>
+                <ion-col
+                  size="8"
+                  style="padding: 0 !important; margin-left: -5px"
+                >
+                  <ion-item
+                    style="
+                      height: 35px !important;
+                      display: flex;
+                      align-items: baseline;
+                    "
+                    [disabled]="isedit"
+                  >
+                    <ion-select
+                      placeholder="Select Gender"
+                      formControlName="gender"
+                      style="font-size: 13px"
+                    >
+                      <ion-select-option value="male">Male</ion-select-option>
+                      <ion-select-option value="female"
+                        >Female</ion-select-option
+                      >
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4" class="sub_grid">
+                  <p>Address</p>
+                  <p>:</p>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input
+                    formControlName="address"
+                    class="profile_input"
+                    type="text"
+                    [readonly]="isedit"
+                    placeholder="Enter Address"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4" class="sub_grid">
+                  <p>City</p>
+                  <p>:</p>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input
+                    formControlName="city"
+                    class="profile_input"
+                    type="text"
+                    [readonly]="isedit"
+                    placeholder="Enter City"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4" class="sub_grid">
+                  <p>Location</p>
+                  <p>:</p>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input
+                    formControlName="location"
+                    class="profile_input"
+                    type="text"
+                    [readonly]="isedit"
+                    placeholder="Enter Location"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="4" class="sub_grid">
+                  <p>Pin Code</p>
+                  <p>:</p>
+                </ion-col>
+                <ion-col size="8">
+                  <ion-input
+                    formControlName="pincode"
+                    class="profile_input"
+                    type="tel"
+                    maxlength="6"
+                    [readonly]="isedit"
+                    placeholder="Pin Code"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </div>
+
+        <div
+          style="border-top: 1px solid rgba(214, 203, 214, 1)"
+          class="CH_had"
+        >
+          <ion-button
+            *ngIf="isedit && !isShimmer"
+            type="submit"
+            fill="clear"
+            class="edit_cl"
+            (click)="edit()"
+            ><b>EDIT PROFILE</b></ion-button
+          >
+          <ion-button
+            *ngIf="!isedit && !isShimmer"
+            type="submit"
+            fill="clear"
+            class="edit_cl"
+            (click)="UpdateProfile()"
+            ><b>SAVE CHANGES</b></ion-button
+          >
+        </div>
+      </form>
+    </div>
+    <div class="container3 background">
+      <ion-grid>
+        <ion-row
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-inline: 8px;
+          "
+        >
+          <p style="margin: 0">My Institute</p>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </ion-row>
+        <div class="horizontal_line"></div>
+        <ion-row
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-inline: 8px;
+          "
+        >
+          <p style="margin: 0">Support & Help</p>
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <!-- <div>
+      <ion-grid class="container3 ">
+        <ion-row class="CH_had" style="font-size: 12px;margin-block: 5px;">Connect with us</ion-row>
+        <ion-row class="CH_had">
+          <a href="#"><ion-icon class="social_icon" name="logo-facebook"></ion-icon></a>
+          <a href="#"><ion-icon class="social_icon" name="logo-instagram"></ion-icon></a>
+          <a href="#"><ion-icon class="social_icon" name="logo-linkedin"></ion-icon></a>
+          <a href="#"><ion-icon class="social_icon" name="logo-youtube"></ion-icon></a>
+        </ion-row>
+      </ion-grid>
+    </div> -->
+    <div *ngIf="!isWeb">
+      <ion-button
+        color="primary"
+        style="
+          width: 100% !important;
+          margin-top: 10px;
+          --ion-color-base: var(--ion-color-main) !important;
+        "
+        (click)="switch()"
+      >
+        Switch Standard
+      </ion-button>
+      <ion-button
+        color="primary"
+        style="
+          width: 100% !important;
+          margin-top: 10px;
+          --ion-color-base: var(--ion-color-main) !important;
+        "
+        (click)="scan()"
+      >
+        Link with device
+      </ion-button>
+      <ion-button
+        color="primary"
+        style="
+          width: 100% !important;
+          margin-top: 10px;
+          --ion-color-base: var(--ion-color-main) !important;
+        "
+        (click)="logout()"
+      >
+        LOG OUT
+      </ion-button>
+      <ion-button
+        style="
+          width: 100% !important;
+          margin-top: 10px;
+          color: var(--ion-color-main);
+          --background: white;
+          border: 1px solid var(--ion-color-main);
+          border-radius: 3px;
+        "
+        (click)="Unsubscribe()"
+      >
+        Delete Account
+      </ion-button>
+    </div>
+    <div *ngIf="isWeb">
+      <ion-grid>
+        <ion-row
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+          "
+        >
+          <ion-col size="3">
+            <ion-button
+              color="primary"
+              style="
+                width: 100% !important;
+                --ion-color-base: var(--ion-color-main) !important;
+              "
+              (click)="logout()"
+            >
+              LOG OUT
+            </ion-button>
+          </ion-col>
+          <ion-col size="3">
+            <ion-button
+              style="
+                width: 100% !important;
+                color: var(--ion-color-main);
+                --background: white;
+                border: 1px solid var(--ion-color-main);
+                border-radius: 3px;
+              "
+              (click)="Unsubscribe()"
+            >
+              Delete Account
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

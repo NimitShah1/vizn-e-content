@@ -1,0 +1,32 @@
+video {
+  height: -webkit-fill-available;
+  width: -webkit-fill-available;
+}
+@media only screen and (max-width: 768px) {
+  video {
+    // height: -webkit-fill-available;
+    position: absolute;
+    transform: rotate(90deg);
+    transform-origin: bottom left;
+    width: calc(100vh - 57px);
+    height: 101vw;
+    margin-top: -101vw;
+    object-fit: contain;
+    z-index: 4;
+    visibility: visible;
+    object-position: center center;
+    background: #000;
+  }
+}
+.CH_had {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+#headers_boxs2 {
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  padding-bottom: 13px;
+  border-radius: 0 0 15px 15px;
+}

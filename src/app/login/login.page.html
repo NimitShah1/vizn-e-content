@@ -1,0 +1,855 @@
+<ion-content>
+  <div class="splash_div_jasp" *ngIf="!isWeb">
+    <ion-grid class="container" style="margin-bottom: 40%">
+      <ion-row style="height: 115px" *ngIf="!isWeb"> </ion-row>
+      <ion-row class="splash_row">
+        <ion-col class="flex_center">
+          <div
+            style="
+              padding-block: 24px;
+              background: white;
+              border-radius: 16px;
+              margin-inline: 36px;
+            "
+          >
+            <img
+              src="assets/images/svg/icon.png"
+              class="splash_img"
+              style="border-radius: 0px !important"
+            />
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div class="login_div" *ngIf="showTab == 1">
+      <form [formGroup]="loginForm">
+        <div>
+          <ion-grid class="container2 mt_5">
+            <ion-row>
+              <ion-label style="font-size: 15px; margin-block: 10px"
+                >Enter Your Mobile No.</ion-label
+              >
+            </ion-row>
+            <ion-row class="mobile_input">
+              <ion-col size="8">
+                <ion-input
+                  type="tel"
+                  maxlength="10"
+                  class="form-control"
+                  formControlName="mobileno"
+                  placeholder="Enter Mobile Number"
+                ></ion-input>
+              </ion-col>
+              <ion-col
+                size="4"
+                class="flex_center"
+                style="padding-right: 0 !important"
+              >
+                <div
+                  class="line"
+                  style="margin-right: 10px; height: 26px !important"
+                ></div>
+                <button
+                  *ngIf="!isShow"
+                  [ngClass]="this.loginForm.get('mobileno').invalid || isTimer ? 'otp2' : 'otp'"
+                  (click)="SendOTP('0')"
+                  [disabled]="this.loginForm.get('mobileno').invalid || isTimer"
+                  style="margin: 0px !important"
+                >
+                  Send OTP
+                </button>
+                <button
+                  *ngIf="isShow"
+                  [ngClass]="this.loginForm.get('mobileno').invalid || !isShow ? 'otp2' : 'otp'"
+                  (click)="SendOTP('1')"
+                  [disabled]="this.loginForm.get('mobileno').invalid || !isShow"
+                >
+                  Resend OTP
+                </button>
+              </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="isTimer && !isShow" class="timer">
+              <ion-icon name="timer-outline"></ion-icon>
+              <p>{{this.TIME}}</p>
+            </ion-row>
+
+            <ion-row *ngIf="isOtp" class="CH_had">
+              <ng-otp-input
+                class="otp-input"
+                type="number"
+                (onInputChange)="onOtpChange($event)"
+                [config]="{length:4,allowNumbersOnly:true}"
+              ></ng-otp-input>
+            </ion-row>
+
+            <ion-row *ngIf="isOtp">
+              <ion-button
+                color="danger"
+                style="--ion-color-base: var(--ion-color-main) !important"
+                class="lgn_btn"
+                (click)="verify()"
+                [disabled]="!isNext"
+                >VERIFY
+              </ion-button>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </form>
+    </div>
+    <form [formGroup]="registerForm">
+      <div class="login_div" *ngIf="showTab == 2">
+        <div>
+          <ion-grid style="margin: 0 20px">
+            <ion-row>
+              <ion-label style="font-size: 15px; color: #000; margin-top: 5px"
+                >Help us personalise your learning experience</ion-label
+              >
+            </ion-row>
+            <ion-row>
+              <ion-label style="font-size: 10px; color: #fff"
+                >register</ion-label
+              >
+            </ion-row>
+            <ion-row class="reg_row">
+              <ion-col
+                size="1"
+                style="
+                  padding: 0 !important;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <img
+                  src="{{this.imglink}}assets/images/user-graduate.svg"
+                  style="max-width: 18px"
+                />
+              </ion-col>
+              <ion-col size="11">
+                <ion-input
+                  class="otp_input"
+                  type="text"
+                  formControlName="student_name"
+                  placeholder="Student’s Name*"
+                  style="padding-left: 10px !important"
+                >
+                </ion-input>
+              </ion-col>
+            </ion-row>
+            <ion-row class="reg_row">
+              <ion-col
+                size="1"
+                style="
+                  padding: 0 !important;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <img
+                  src="{{this.imglink}}assets/images/mail.svg"
+                  style="max-width: 24px; margin-left: 3px"
+                />
+              </ion-col>
+              <ion-col size="11">
+                <ion-input
+                  (ionChange)="valid($event)"
+                  class="otp_input"
+                  formControlName="email"
+                  type="email"
+                  placeholder="Enter your email id*"
+                  style="padding-left: 10px !important"
+                >
+                </ion-input>
+                <ion-icon
+                  class="correct"
+                  *ngIf="this.registerForm.get('email').valid"
+                  name="checkmark-outline"
+                ></ion-icon>
+                <ion-icon
+                  class="invalid"
+                  *ngIf="this.registerForm.get('email').invalid && isicon"
+                  name="close-outline"
+                ></ion-icon>
+                <!-- <ion-label *ngIf="this.registerForm.get('email').errors.pattern">This is not a valid E-mail address</ion-label> -->
+              </ion-col>
+            </ion-row>
+            <ion-row class="reg_row">
+              <ion-col
+                size="1"
+                style="
+                  padding: 0 !important;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <ion-icon
+                  name="location"
+                  style="
+                    height: 24px !important;
+                    width: 30px !important;
+                    color: #000;
+                  "
+                >
+                </ion-icon>
+              </ion-col>
+              <ion-col size="11">
+                <ion-input
+                  class="otp_input"
+                  formControlName="location"
+                  type="text"
+                  placeholder="City/Nearest Location"
+                  style="padding-left: 10px !important"
+                >
+                </ion-input>
+              </ion-col>
+            </ion-row>
+
+            <ion-row class="reg_row">
+              <ion-col
+                size="1"
+                style="
+                  padding: 0 !important;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <ion-icon
+                  name="key-outline"
+                  style="
+                    height: 24px !important;
+                    width: 30px !important;
+                    color: #000;
+                  "
+                >
+                </ion-icon>
+              </ion-col>
+              <ion-col size="11">
+                <form [formGroup]="ActiveForm">
+                  <div
+                    class="otp_input"
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      padding-left: 10px !important;
+                    "
+                  >
+                    <ion-input
+                      maxlength="20"
+                      formControlName="key"
+                      type="text"
+                      placeholder="Enter Code"
+                    >
+                    </ion-input>
+                    <ion-button
+                      color="danger"
+                      style="--ion-color-base: var(--ion-color-main) !important"
+                      class="active_btn_login"
+                      (click)="activekeyList()"
+                      [disabled]="!ActiveForm.valid"
+                      >verify</ion-button
+                    >
+                  </div>
+                </form>
+              </ion-col>
+              <!-- <ion-label style="padding: 5px;color:#000;font-size: 13px;">* Enter code from your books</ion-label> -->
+            </ion-row>
+            <ion-row>
+              <ion-button
+                (click)="toggleDisplay(3)"
+                [disabled]="this.registerForm.get('student_name').invalid || this.registerForm.get('email').invalid"
+                style="
+                  height: 44px;
+                  margin-top: 15px;
+                  width: 100%;
+                  border-radius: 5px;
+                  --ion-color-base: var(--ion-color-main) !important;
+                  --background: var(--ion-color-main) !important;
+                "
+                >NEXT</ion-button
+              >
+            </ion-row>
+          </ion-grid>
+        </div>
+      </div>
+      <div id="donate" class="login_div" *ngIf="showTab == 3">
+        <ion-grid style="padding: 11px 28px">
+          <ion-row>
+            <ion-label style="font-size: 20px; margin-block: 10px"
+              >Select Board</ion-label
+            >
+          </ion-row>
+          <div>
+            <ion-radio-group (ionChange)="onChangeBoard($event)">
+              <ion-row class="Training_row">
+                <ion-col size="4" *ngFor="let item of BoardList">
+                  <div class="language_box">
+                    <ion-radio
+                      value="{{item.BoardID}},{{item.BoardName}}"
+                    ></ion-radio>
+                    <div class="checkmark">
+                      <ion-label>{{item.BoardName}}</ion-label>
+                    </div>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-radio-group>
+          </div>
+          <ion-row>
+            <ion-button
+              color="danger"
+              (click)="toggleDisplay(4)"
+              [disabled]="this.BoardID == '0'"
+              style="
+                height: 44px;
+                margin-top: 15px;
+                width: 100%;
+                border-radius: 5px;
+                --ion-color-base: var(--ion-color-main) !important;
+                --background: var(--ion-color-main) !important;
+              "
+              >NEXT</ion-button
+            >
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div id="donate" class="login_div" *ngIf="showTab == 4">
+        <ion-grid style="padding: 11px 28px">
+          <ion-row>
+            <ion-label style="font-size: 20px; margin-block: 10px"
+              >Select Medium</ion-label
+            >
+          </ion-row>
+          <div>
+            <ion-radio-group
+              (ionChange)="onChangeMedium($event)"
+              *ngIf="ismedium"
+            >
+              <ion-row class="Training_row">
+                <ion-col size="4" *ngFor="let item of MediumList">
+                  <div class="language_box">
+                    <ion-radio
+                      value="{{item.MediumID}},{{item.MediumName}}"
+                    ></ion-radio>
+                    <div class="checkmark">
+                      <ion-label>{{item.MediumName}}</ion-label>
+                    </div>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-radio-group>
+          </div>
+          <ion-row>
+            <ion-button
+              color="danger"
+              (click)="toggleDisplay(5)"
+              [disabled]="this.MediumID == '0'"
+              style="
+                height: 44px;
+                margin-top: 15px;
+                width: 100%;
+                border-radius: 5px;
+                --ion-color-base: var(--ion-color-main) !important;
+                --background: var(--ion-color-main) !important;
+              "
+              >NEXT</ion-button
+            >
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div id="donate" class="login_div" *ngIf="showTab == 5">
+        <ion-grid style="padding: 11px 28px">
+          <ion-row>
+            <ion-label style="font-size: 20px; margin-block: 10px"
+              >Select Standard</ion-label
+            >
+          </ion-row>
+          <div>
+            <ion-radio-group
+              (ionChange)="onChangeStandard($event)"
+              *ngIf="isstandard"
+            >
+              <ion-row class="Training_row">
+                <ion-col size="4" *ngFor="let item of StandardList">
+                  <div class="language_box">
+                    <ion-radio
+                      value="{{item.StandardID}},{{item.StandardName}}"
+                    ></ion-radio>
+                    <div class="checkmark">
+                      <ion-label>{{item.StandardName}}</ion-label>
+                    </div>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-radio-group>
+          </div>
+          <ion-row>
+            <ion-button
+              color="danger"
+              (click)="register()"
+              [disabled]="this.StandardID == '0'"
+              style="
+                height: 44px;
+                margin-top: 15px;
+                width: 100%;
+                border-radius: 5px;
+                --ion-color-base: var(--ion-color-main) !important;
+                --background: var(--ion-color-main) !important;
+              "
+              >Start Learning</ion-button
+            >
+          </ion-row>
+        </ion-grid>
+      </div>
+    </form>
+  </div>
+
+  <div class="splash_div_jasp" *ngIf="isWeb" style="background-color: #111c21">
+    <div class="web_login_top"></div>
+    <div style="display: flex; justify-content: center">
+      <div class="web_bg_box">
+        <div style="text-align: center; margin-top: 20px">
+          <!-- src="{{this.imglink}}assets/images/svg/splash.png" -->
+          <img
+            src="assets/images/svg/icon.png"
+            class="web_splash_img logo"
+            style="height: 72px !important; border-radius: 0 !important"
+          />
+        </div>
+        <div style="display: flex; align-items: center">
+          <div class="logo_div">
+            <div class="list">
+              <h4>Use {{this.app}} on your computer</h4>
+              <ol>
+                <li>Open {{this.app}} on your phone</li>
+                <li>Go to profile by tapping on your profile photo</li>
+                <li>Tap <strong>Link a device</strong></li>
+                <li>Point your phone to this screen to capture the QR code</li>
+              </ol>
+            </div>
+            <div class="link" *ngIf="!this.isphone">
+              <h6 (click)="phone()">Login with phone number</h6>
+            </div>
+            <div class="link" *ngIf="this.isphone">
+              <h6 (click)="phone()">Login with Qr Code</h6>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                padding-top: 20px;
+              "
+            >
+              <a
+                href="https://apps.apple.com/us/app/jqbs-jeevandeep/id1661416357"
+                target="_blank"
+              >
+                <img
+                  src="{{this.imglink}}assets/images/svg/ios.png"
+                  height="45"
+                />
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.qrtech.jeevandeep"
+                target="_blank"
+              >
+                <img
+                  src="{{this.imglink}}assets/images/svg/android.png"
+                  height="45"
+                />
+              </a>
+            </div>
+          </div>
+
+          <div
+            style="
+              width: 45%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: -webkit-fill-available;
+            "
+          >
+            <div style="width: max-content" *ngIf="!this.isphone">
+              <!-- <ion-img src="{{this.qrimg}}" class="web_splash_img"></ion-img> -->
+              <img [src]="qrimg" class="web_splash_img" />
+            </div>
+            <div style="width: 78%" *ngIf="this.isphone">
+              <form
+                [formGroup]="loginForm"
+                *ngIf="showTab == 1"
+                style="margin-top: -30px"
+              >
+                <div style="text-align: center">
+                  <h4>Enter Your Mobile Number</h4>
+                </div>
+
+                <ion-grid class="mt_5">
+                  <ion-row class="mobile_input">
+                    <ion-input
+                      type="tel"
+                      maxlength="10"
+                      class="form-control"
+                      formControlName="mobileno"
+                      style="margin-left: 10px; width: 67% !important"
+                      placeholder="Enter Mobile Number"
+                    ></ion-input>
+                    <div class="line" style="margin-right: 8px"></div>
+                    <button
+                      *ngIf="!isShow"
+                      [ngClass]="this.loginForm.get('mobileno').invalid || isTimer ? 'otp2' : 'otp'"
+                      (click)="SendOTP('0')"
+                      [disabled]="this.loginForm.get('mobileno').invalid || isTimer"
+                    >
+                      Send OTP
+                    </button>
+                    <button
+                      *ngIf="isShow"
+                      [ngClass]="this.loginForm.get('mobileno').invalid || !isShow ? 'otp2' : 'otp'"
+                      (click)="SendOTP('1')"
+                      [disabled]="this.loginForm.get('mobileno').invalid || !isShow"
+                    >
+                      Resend OTP
+                    </button>
+                  </ion-row>
+
+                  <ion-row *ngIf="isTimer && !isShow" class="timer">
+                    <ion-icon name="timer-outline"></ion-icon>
+                    <p>{{this.TIME}}</p>
+                  </ion-row>
+
+                  <ion-row *ngIf="isOtp" class="CH_had">
+                    <ng-otp-input
+                      class="otp-input"
+                      type="number"
+                      (onInputChange)="onOtpChange($event)"
+                      [config]="{length:4,allowNumbersOnly:true}"
+                    ></ng-otp-input>
+                  </ion-row>
+
+                  <ion-row *ngIf="isOtp">
+                    <ion-button
+                      color="danger"
+                      style="--ion-color-base: var(--ion-color-main) !important"
+                      class="lgn_btn"
+                      (click)="verify()"
+                      [disabled]="!isNext"
+                      >VERIFY
+                    </ion-button>
+                  </ion-row>
+                </ion-grid>
+              </form>
+              <form [formGroup]="registerForm">
+                <div *ngIf="showTab == 2">
+                  <div>
+                    <ion-grid style="margin: 0 20px">
+                      <!-- <ion-row>
+                        <ion-label style="font-size: 12px;color:#000;margin-top: 5px;">Help us personalise your learning
+                          experience</ion-label>
+                      </ion-row> -->
+                      <ion-row>
+                        <ion-label style="font-size: 10px; color: #fff"
+                          >register</ion-label
+                        >
+                      </ion-row>
+                      <ion-row class="reg_row">
+                        <ion-col
+                          size="1"
+                          style="
+                            padding: 0 !important;
+                            display: flex;
+                            justify-content: center;
+                          "
+                        >
+                          <img
+                            src="{{this.imglink}}assets/images/user-graduate.svg"
+                            style="max-width: 18px"
+                          />
+                        </ion-col>
+                        <ion-col size="11">
+                          <ion-input
+                            class="otp_input"
+                            type="text"
+                            formControlName="student_name"
+                            placeholder="Student’s Name*"
+                            style="padding-left: 10px !important"
+                          >
+                          </ion-input>
+                        </ion-col>
+                      </ion-row>
+                      <ion-row class="reg_row">
+                        <ion-col
+                          size="1"
+                          style="
+                            padding: 0 !important;
+                            display: flex;
+                            justify-content: center;
+                          "
+                        >
+                          <img
+                            src="{{this.imglink}}assets/images/mail.svg"
+                            style="max-width: 24px; margin-left: 3px"
+                          />
+                        </ion-col>
+                        <ion-col size="11">
+                          <ion-input
+                            (ionChange)="valid($event)"
+                            class="otp_input"
+                            style="padding-left: 10px !important"
+                            formControlName="email"
+                            type="email"
+                            placeholder="Enter your email id*"
+                          >
+                          </ion-input>
+                          <ion-icon
+                            class="correct"
+                            *ngIf="this.registerForm.get('email').valid"
+                            name="checkmark-outline"
+                          ></ion-icon>
+                          <ion-icon
+                            class="invalid"
+                            *ngIf="this.registerForm.get('email').invalid && isicon"
+                            name="close-outline"
+                          ></ion-icon>
+                          <!-- <ion-label *ngIf="this.registerForm.get('email').errors.pattern">This is not a valid E-mail address</ion-label> -->
+                        </ion-col>
+                      </ion-row>
+                      <ion-row class="reg_row">
+                        <ion-col
+                          size="1"
+                          style="
+                            padding: 0 !important;
+                            display: flex;
+                            justify-content: center;
+                          "
+                        >
+                          <ion-icon
+                            name="location"
+                            style="
+                              height: 24px !important;
+                              width: 30px !important;
+                              color: #000;
+                            "
+                          >
+                          </ion-icon>
+                        </ion-col>
+                        <ion-col size="11">
+                          <ion-input
+                            class="otp_input"
+                            formControlName="location"
+                            style="padding-left: 10px !important"
+                            type="text"
+                            placeholder="City/Nearest Location"
+                          >
+                          </ion-input>
+                        </ion-col>
+                      </ion-row>
+
+                      <ion-row class="reg_row">
+                        <ion-col
+                          size="1"
+                          style="
+                            padding: 0 !important;
+                            display: flex;
+                            justify-content: center;
+                          "
+                        >
+                          <ion-icon
+                            name="key-outline"
+                            style="
+                              height: 24px !important;
+                              width: 30px !important;
+                              color: #000;
+                            "
+                          >
+                          </ion-icon>
+                        </ion-col>
+                        <ion-col size="11">
+                          <form [formGroup]="ActiveForm">
+                            <div
+                              class="otp_input"
+                              style="
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                              "
+                            >
+                              <ion-input
+                                maxlength="20"
+                                formControlName="key"
+                                type="text"
+                                style="padding-left: 10px !important"
+                                placeholder="Enter Code"
+                              >
+                              </ion-input>
+                              <ion-button
+                                color="danger"
+                                style="
+                                  --ion-color-base: var(
+                                    --ion-color-main
+                                  ) !important;
+                                "
+                                class="active_btn_login"
+                                (click)="activekeyList()"
+                                [disabled]="!ActiveForm.valid"
+                                >verify</ion-button
+                              >
+                            </div>
+                          </form>
+                        </ion-col>
+                        <!-- <ion-label style="padding: 5px;color:#000;font-size: 13px;">* Enter code from your books</ion-label> -->
+                      </ion-row>
+                      <ion-row>
+                        <ion-button
+                          (click)="toggleDisplay(3)"
+                          [disabled]="this.registerForm.get('student_name').invalid || this.registerForm.get('email').invalid"
+                          style="
+                            height: 44px;
+                            margin-top: 15px;
+                            width: 100%;
+                            border-radius: 5px;
+                            --ion-color-base: var(--ion-color-main) !important;
+                            --background: var(--ion-color-main) !important;
+                          "
+                          >NEXT</ion-button
+                        >
+                      </ion-row>
+                    </ion-grid>
+                  </div>
+                </div>
+                <div id="donate" *ngIf="showTab == 3">
+                  <ion-grid style="padding: 11px 28px">
+                    <ion-row>
+                      <ion-label style="font-size: 20px; margin-block: 10px"
+                        >Select Board</ion-label
+                      >
+                    </ion-row>
+                    <div>
+                      <ion-radio-group (ionChange)="onChangeBoard($event)">
+                        <ion-row class="Training_row">
+                          <ion-col size="4" *ngFor="let item of BoardList">
+                            <div class="language_box">
+                              <ion-radio
+                                value="{{item.BoardID}},{{item.BoardName}}"
+                              ></ion-radio>
+                              <div class="checkmark">
+                                <ion-label>{{item.BoardName}}</ion-label>
+                              </div>
+                            </div>
+                          </ion-col>
+                        </ion-row>
+                      </ion-radio-group>
+                    </div>
+                    <ion-row>
+                      <ion-button
+                        (click)="toggleDisplay(4)"
+                        [disabled]="this.BoardID == '0'"
+                        style="
+                          height: 44px;
+                          margin-top: 15px;
+                          width: 100%;
+                          border-radius: 5px;
+                          --ion-color-base: var(--ion-color-main) !important;
+                          --background: var(--ion-color-main) !important;
+                        "
+                        >NEXT</ion-button
+                      >
+                    </ion-row>
+                  </ion-grid>
+                </div>
+                <div id="donate" *ngIf="showTab == 4">
+                  <ion-grid style="padding: 11px 28px">
+                    <ion-row>
+                      <ion-label style="font-size: 20px; margin-block: 10px"
+                        >Select Medium</ion-label
+                      >
+                    </ion-row>
+                    <div>
+                      <ion-radio-group
+                        (ionChange)="onChangeMedium($event)"
+                        *ngIf="ismedium"
+                      >
+                        <ion-row class="Training_row">
+                          <ion-col size="4" *ngFor="let item of MediumList">
+                            <div class="language_box">
+                              <ion-radio
+                                value="{{item.MediumID}},{{item.MediumName}}"
+                              ></ion-radio>
+                              <div class="checkmark">
+                                <ion-label>{{item.MediumName}}</ion-label>
+                              </div>
+                            </div>
+                          </ion-col>
+                        </ion-row>
+                      </ion-radio-group>
+                    </div>
+                    <ion-row>
+                      <ion-button
+                        (click)="toggleDisplay(5)"
+                        [disabled]="this.MediumID == '0'"
+                        style="
+                          height: 44px;
+                          margin-top: 15px;
+                          width: 100%;
+                          border-radius: 5px;
+                          --ion-color-base: var(--ion-color-main) !important;
+                          --background: var(--ion-color-main) !important;
+                        "
+                        >NEXT</ion-button
+                      >
+                    </ion-row>
+                  </ion-grid>
+                </div>
+                <div id="donate" *ngIf="showTab == 5">
+                  <ion-grid style="padding: 11px 28px">
+                    <ion-row>
+                      <ion-label style="font-size: 20px; margin-block: 10px"
+                        >Select Standard</ion-label
+                      >
+                    </ion-row>
+                    <div>
+                      <ion-radio-group
+                        (ionChange)="onChangeStandard($event)"
+                        *ngIf="isstandard"
+                      >
+                        <ion-row class="Training_row">
+                          <ion-col size="4" *ngFor="let item of StandardList">
+                            <div class="language_box">
+                              <ion-radio
+                                value="{{item.StandardID}},{{item.StandardName}}"
+                              ></ion-radio>
+                              <div class="checkmark">
+                                <ion-label>{{item.StandardName}}</ion-label>
+                              </div>
+                            </div>
+                          </ion-col>
+                        </ion-row>
+                      </ion-radio-group>
+                    </div>
+                    <ion-row>
+                      <ion-button
+                        color="danger"
+                        (click)="register()"
+                        [disabled]="this.StandardID == '0'"
+                        style="
+                          height: 44px;
+                          margin-top: 15px;
+                          width: 100%;
+                          --ion-color-base: var(--ion-color-main) !important;
+                          --background: var(--ion-color-main) !important;
+                          border-radius: 5px;
+                        "
+                        >Start Learning</ion-button
+                      >
+                    </ion-row>
+                  </ion-grid>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

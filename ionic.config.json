@@ -1,0 +1,7 @@
+{
+  "name": "vizn_e_content",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,27 @@
+.CH_had {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+#headers_boxs2 {
+  background-size: 100% 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  padding-bottom: 13px;
+  border-radius: 0 0 15px 15px;
+}
+.list {
+  text-align: center;
+}
+.list ol {
+  text-align: left;
+}
+.list li {
+  margin-block: 10px;
+}
+.list h4 {
+  margin-block: 20px;
+}
+.edit_cl {
+  color: var(--ion-color-main);
+}

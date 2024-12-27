@@ -1,0 +1,76 @@
+<ion-header id="headers" no-shadow>
+  <ion-toolbar>
+    <div class="header">
+      <ion-grid class="container">
+        <ion-row>
+          <ion-col size="9">
+            <div class="page_had" (click)="backPage()">
+              <ion-icon
+                name="arrow-back-outline"
+                style="font-size: 30px; color: #fff"
+              ></ion-icon>
+            </div>
+          </ion-col>
+          <ion-col size="3" class="flex_col" (click)="analysis()">
+            <!-- <ion-img
+              no-padding
+              class="header_img"
+              src="{{this.imglink}}assets/images/report (1).png"
+            ></ion-img> -->
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="headers_boxs1" class="head_grad">
+    <div class="header_contents">
+      <ion-grid class="container_2" style="padding-top: 0 !important">
+        <ion-row style="margin: 0">
+          <h3 style="font-size: 17px">{{this.SubjectName}}</h3>
+        </ion-row>
+        <ion-row style="margin: 0">
+          <h5 style="font-size: 14px !important">
+            {{this.ChapterList.length}} Chapters
+          </h5>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+
+  <div class="chapter_lists_block">
+    <ion-grid class="container">
+      <h5 class="my_bk1" style="margin-top: 15px">Chapters</h5>
+      <div *ngIf="this.isShimmer">
+        <div *ngFor="let item of shimmerView">
+          <ion-skeleton-text
+            [animated]="true"
+            class="ch_row"
+            style="width: 100%; height: 60px"
+          ></ion-skeleton-text>
+        </div>
+      </div>
+      <ion-row
+        class="ch_row"
+        (click)="chname(item.ChapterID,item.ChapterName)"
+        *ngFor="let item of ChapterList"
+      >
+        <ion-col>
+          <div class="ch_count">
+            <img
+              src="{{this.imglink}}assets/images/think (1).png"
+              class="head_img2"
+            />
+          </div>
+          <div>
+            <p class="ch_label"><b>{{item.ChapterName}}</b></p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div style="height: 20px; width: 100%"></div>
+</ion-content>

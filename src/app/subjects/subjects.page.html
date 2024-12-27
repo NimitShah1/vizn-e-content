@@ -1,0 +1,480 @@
+<ion-header id="headers" no-shadow style="position: unset">
+  <ion-toolbar>
+    <div class="header">
+      <ion-grid class="container">
+        <ion-row *ngIf="isWeb">
+          <ion-col size="1">
+            <div class="user_info">
+              <div class="user_logo_box">
+                <img
+                  class="user-io"
+                  [src]="ProfilePic == '' || ProfilePic == 'https://ease.vizn.co.in/Uploads/jeevandeep_student_profile/' || ProfilePic == null ? 'assets/images/user-profile-w.svg' : this.ProfilePic"
+                  (click)="profile()"
+                />
+              </div>
+            </div>
+          </ion-col>
+          <ion-col
+            size="8"
+            style="
+              display: flex;
+              align-items: center;
+              padding-right: 0 !important;
+            "
+          >
+            <ion-label style="color: white"><b>VIZN E-Content</b></ion-label>
+          </ion-col>
+
+          <ion-col size="1.5" class="CH_had">
+            <button
+              (click)="switch()"
+              class="btn btn-green"
+              style="padding: 8px !important"
+            >
+              <ion-label>Switch Standard</ion-label>
+            </button>
+          </ion-col>
+          <ion-col
+            size="1.5"
+            class="CH_had"
+            style="padding-inline: 0 !important"
+          >
+            <button
+              (click)="GoToActiveKey()"
+              class="btn btn-green"
+              style="padding: 8px !important"
+            >
+              <img class="active_img" src="assets/images/svg/lock.png" />
+              <ion-label>Access code</ion-label>
+            </button>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="!isWeb">
+          <ion-col size="2">
+            <div class="user_info">
+              <div class="user_logo_box">
+                <img
+                  class="user-io"
+                  [src]="ProfilePic == '' || ProfilePic == 'https://ease.vizn.co.in/Uploads/jeevandeep_student_profile/' || ProfilePic == null ? 'assets/images/user-profile-w.svg' : this.ProfilePic"
+                  (click)="profile()"
+                />
+              </div>
+            </div>
+          </ion-col>
+          <ion-col
+            size="6"
+            style="
+              display: flex;
+              align-items: center;
+              padding-right: 0 !important;
+            "
+          >
+            <ion-label style="color: white"><b>VIZN E-Content</b></ion-label>
+          </ion-col>
+          <ion-col size="4" class="CH_had" style="padding-inline: 0 !important">
+            <button
+              (click)="GoToActiveKey()"
+              class="btn btn-green"
+              style="padding: 8px !important"
+            >
+              <img class="active_img" src="assets/images/svg/lock.png" />
+              <ion-label>Access code</ion-label>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div id="headers_boxs2" class="head_grad"></div>
+  <ion-grid
+    class="container3"
+    style="padding-inline: 5px !important; margin-top: -75px"
+  >
+    <ion-row style="justify-content: center" *ngIf="!isWeb">
+      <ion-row
+        *ngIf="this.isShimmer"
+        style="justify-content: center; padding: 0; margin: 0"
+      >
+        <ion-col
+          size="3"
+          *ngFor="let item of shimmerView"
+          style="padding: 0px 18px !important"
+        >
+          <div
+            style="
+              display: grid;
+              justify-content: center;
+              justify-items: center;
+            "
+          >
+            <ion-skeleton-text
+              [animated]="true"
+              style="height: 52px; width: 52px"
+            ></ion-skeleton-text>
+            <h5 style="margin: 0">
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 60px"
+              ></ion-skeleton-text>
+            </h5>
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 60px"
+            ></ion-skeleton-text>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-col
+        size="3"
+        *ngFor="let item of DashboardList"
+        style="
+          padding-inline: 3px !important;
+          display: inline-grid;
+          justify-content: center;
+          margin-block: 10px;
+          justify-items: center;
+        "
+      >
+        <!-- <div
+          class="btnsubject li_div_hw"
+          href="javascript:void(0);"
+          (click)="subject(item.SubjectID,item.SubjectName,item.SubjectVendorIcon)"
+        >
+          <img [src]="item.SubjectVendorIcon" class="head_img" />
+        </div>
+        <div class="lvl_text">
+          <p style="font-size: 10px !important">{{item.SubjectName}}</p>
+        </div>
+        <div class="lvl_text">
+          <p style="font-size: 10px !important">
+            {{item.TotalChapters}} Chapter
+          </p>
+        </div> -->
+        <div
+          (click)="subject(item.SubjectID,item.SubjectName,item.SubjectVendorIcon)"
+          style="
+            background: #fff;
+            border-radius: 50%;
+            padding: 15px;
+            display: flex;
+            height: 52px;
+            width: 52px;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 1px 5px #cfcfcf;
+            margin-bottom: 5px;
+          "
+        >
+          <img
+            [src]="item.SubjectVendorIcon"
+            style="height: 24px !important; width: 24px !important"
+          />
+        </div>
+        <div style="text-align: center">
+          <p style="font-size: 10px !important; margin: 0 !important">
+            {{item.SubjectName}}
+          </p>
+        </div>
+        <div style="text-align: center">
+          <p style="font-size: 10px !important; margin: 0 !important">
+            {{item.TotalChapters}} Chapter
+          </p>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row style="justify-content: center" *ngIf="isWeb">
+      <ion-row
+        *ngIf="this.isShimmer"
+        style="
+          padding: 0;
+          margin: 0;
+          justify-content: space-between;
+          width: 100%;
+        "
+      >
+        <ion-col
+          *ngFor="let item of shimmerView"
+          style="
+            padding-inline: 3px !important;
+            display: grid;
+            justify-content: center;
+            margin-block: 10px;
+          "
+        >
+          <div style="display: grid; justify-content: center">
+            <ion-skeleton-text
+              [animated]="true"
+              style="height: 60px; width: 60px"
+            ></ion-skeleton-text>
+            <h5 style="margin: 0">
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 60px"
+              ></ion-skeleton-text>
+            </h5>
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 60px"
+            ></ion-skeleton-text>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-col
+        *ngFor="let item of DashboardList"
+        style="
+          padding-inline: 3px !important;
+          display: grid;
+          justify-content: center;
+          margin-block: 10px;
+        "
+      >
+        <div
+          class="btnsubject li_div_hw"
+          href="javascript:void(0);"
+          (click)="subject(item.SubjectID,item.SubjectName,item.SubjectVendorIcon)"
+        >
+          <img [src]="item.SubjectVendorIcon" class="head_img" />
+        </div>
+        <div class="lvl_text">
+          <p style="font-size: 10px !important">{{item.SubjectName}}</p>
+        </div>
+        <div class="lvl_text">
+          <p style="font-size: 10px !important">
+            {{item.TotalChapters}} Chapter
+          </p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="div_bx">
+    <ion-grid class="container3">
+      <div class="dash_graph_top_row" *ngIf="dataList.length != 0">
+        <ion-label style="color: white; font-size: 12px; margin-left: 10px"
+          >{{this.title}} LIST</ion-label
+        >
+      </div>
+      <div *ngIf="!isWeb">
+        <div *ngIf="isShimmerList">
+          <div
+            *ngFor="let item of shimmerView"
+            class="shimmer"
+            style="padding: 8px; margin-block: 10px"
+          >
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 100%; height: 140px; --border-radius: 8px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 80%; height: 18px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 70%; height: 15px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              [animated]="true"
+              style="width: 60%; height: 15px; margin-bottom: 5px"
+            ></ion-skeleton-text>
+          </div>
+        </div>
+        <div
+          class="dash_graph_row_data dash_graph bg_col"
+          (click)="video(item.Video,item.VideoID,item.ChapterID,item.SubjectID)"
+          *ngFor="let item of dataList"
+        >
+          <ion-row style="justify-content: end">
+            <video
+              class="header_img1"
+              style="
+                height: 30%;
+                width: 100%;
+                border-radius: 15px;
+                margin-block: 5px;
+              "
+              id="myDiv"
+              disablepictureinpicture
+              controlsList="nodownload noplaybackrate"
+            >
+              <source src="{{item.Video}}#t=8" type="video/mp4" />
+            </video>
+            <ion-col
+              style="padding-left: 3px !important; margin-bottom: 5px"
+              size="5"
+            >
+              <p
+                class="ent_dec_p"
+                style="font-size: 12px; margin: 0 !important"
+              >
+                Subject :
+                <b
+                  [innerHTML]="item.SubjectName"
+                  style="font-weight: normal; color: var(--ion-color-main)"
+                ></b>
+              </p>
+            </ion-col>
+            <ion-col style="padding: 0 !important" size="7">
+              <p
+                class="ent_dec_p"
+                style="font-size: 12px; margin: 0 !important"
+              >
+                Chapter :
+                <b
+                  [innerHTML]="item.ChapterName"
+                  style="font-weight: normal; color: var(--ion-color-main)"
+                ></b>
+              </p>
+            </ion-col>
+            <div
+              style="
+                text-align: start !important;
+                display: grid;
+                justify-content: flex-start !important;
+              "
+            >
+              <p class="video_p"><b [innerHTML]="item.Title"></b></p>
+              <p
+                class="video_p video_someDiv"
+                [innerHTML]="item.Description"
+              ></p>
+            </div>
+            <h3 class="time">{{ this.formatTime(item.Duration) }}</h3>
+          </ion-row>
+        </div>
+        <ion-row
+          style="justify-content: center"
+          *ngIf="this.dataList.length == 0"
+        >
+          <h6>No Videos availabel</h6>
+        </ion-row>
+      </div>
+      <div *ngIf="isWeb">
+        <div *ngIf="isShimmerList">
+          <ion-row style="justify-content: space-around">
+            <ion-col
+              size="2.8"
+              *ngFor="let item of shimmerView"
+              class="shimmer"
+              style="padding: 8px !important; margin-block: 10px"
+            >
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 100%; height: 140px; --border-radius: 8px"
+              ></ion-skeleton-text>
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 80%; height: 18px"
+              ></ion-skeleton-text>
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 70%; height: 15px"
+              ></ion-skeleton-text>
+              <ion-skeleton-text
+                [animated]="true"
+                style="width: 60%; height: 15px; margin-bottom: 5px"
+              ></ion-skeleton-text>
+            </ion-col>
+          </ion-row>
+        </div>
+        <ion-row style="justify-content: space-around">
+          <ion-col size="2.8" *ngFor="let item of dataList">
+            <ion-row
+              class="dash_graph_row_data dash_graph bg_col"
+              (click)="video(item.Video,item.VideoID,item.ChapterID,item.SubjectID)"
+            >
+              <ion-row style="justify-content: end">
+                <video
+                  class="header_img1"
+                  style="
+                    height: 160px !important;
+                    max-height: 160px !important;
+                    width: 100%;
+                    border-radius: 12px !important;
+                    margin-block: 5px;
+                  "
+                  id="myDiv"
+                  disablepictureinpicture
+                  controlsList="nodownload noplaybackrate"
+                >
+                  <source src="{{item.Video}}#t=8" type="video/mp4" />
+                </video>
+                <ion-col
+                  style="
+                    padding-left: 3px !important;
+                    margin-bottom: 5px;
+                    max-height: 38px !important;
+                    height: 38px !important;
+                  "
+                  size="5"
+                >
+                  <p
+                    class="ent_dec_p"
+                    style="font-size: 12px; margin: 0 !important"
+                  >
+                    Subject :
+                    <b
+                      [innerHTML]="item.SubjectName"
+                      style="font-weight: normal; color: var(--ion-color-main)"
+                    ></b>
+                  </p>
+                </ion-col>
+                <ion-col
+                  style="
+                    padding: 0 !important;
+                    max-height: 38px !important;
+                    height: 38px !important;
+                  "
+                  size="7"
+                >
+                  <p
+                    class="ent_dec_p"
+                    style="font-size: 12px; margin: 0 !important"
+                  >
+                    Chapter :
+                    <b
+                      [innerHTML]="item.ChapterName"
+                      style="font-weight: normal; color: var(--ion-color-main)"
+                    ></b>
+                  </p>
+                </ion-col>
+                <div
+                  style="
+                    text-align: start !important;
+                    display: grid;
+                    justify-content: flex-start !important;
+                  "
+                >
+                  <p class="video_p"><b [innerHTML]="item.Title"></b></p>
+                  <p
+                    class="video_p video_someDiv"
+                    [innerHTML]="item.Description"
+                  ></p>
+                </div>
+                <h3 class="time">{{ this.formatTime(item.Duration) }}</h3>
+              </ion-row>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-grid>
+  </div>
+
+  <!-- <div class="chapter_cats" style="display: none">
+    <ion-grid class="container3 dash_graph">
+      <ion-row class="dash_report_top_row">
+        <ion-col>
+          <ion-label style="color: white; font-size: 14px"
+            >Your Test Analysis</ion-label
+          >
+        </ion-col>
+      </ion-row>
+      <ion-row class="dash_graph_row">
+        <div id="chart_div2" style="height: 180px; width: 100%"></div>
+      </ion-row>
+    </ion-grid>
+  </div> -->
+  <div style="height: 20px; width: 100%"></div>
+</ion-content>
+<!-- <custom-footer></custom-footer> -->

@@ -1,0 +1,9 @@
+/* Customize the scrollbar track */
+::-webkit-scrollbar {
+  width: 102px;
+}
+
+/* Customize the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+  background: #000;
+}
